@@ -1,10 +1,16 @@
 language: php
 
+
+script:
+    - cat script.gdb | sudo gdb --args /home/travis/.phpenv/versions/5.3.17/bin/php /home/travis/.phpenv/versions/5.3.17/bin/phpunit
+    - cat script.gdb | sudo gdb --args /home/travis/.phpenv/versions/5.4.7/bin/php /home/travis/.phpenv/versions/5.4.7/bin/phpunit
+
 php:
     # We only specify one version so we only get one worker
     - 5.3
     - 5.4
 
 before_script:
+    - sudo apt-get install gdb
     - phpize && ./configure && make && sudo make install
     - echo "extension=aop.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
